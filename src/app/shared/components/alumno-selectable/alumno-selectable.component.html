@@ -1,0 +1,25 @@
+<div id="popover-button">
+  <ion-item [button]="!disable" [detail]="!disable">
+    <ion-text slot="start" position="fixed"></ion-text>
+    <ion-text *ngIf="!alumnoSelected && !disable">{{"alumnos.selector" | translate}}</ion-text>
+    <ion-text *ngIf="!alumnoSelected && disable">{{"alumnos.ninguno" | translate}}</ion-text>
+    <ion-text *ngIf="alumnoSelected">{{alumnoSelected.nombre | primeraLetraMayusc}}</ion-text>
+  </ion-item>
+</div>
+
+<ion-popover *ngIf="!disable" trigger="popover-button" #popover (willPresent)="onLoadAlumnos()">
+  <ng-template>
+    <ion-content >
+      <ion-list>
+        <ion-item button (click)="deselect(popover)">
+          <ion-text >{{"alumnos.ninguno" | translate}}</ion-text>
+        </ion-item>
+        <app-alumno-item
+          (clicked)="onAlumnoClicked(popover,$event)"
+          *ngFor="let alumno of alumnos"
+          [alumno]="alumno"
+        ></app-alumno-item>
+      </ion-list>
+    </ion-content>
+  </ng-template>
+</ion-popover>

@@ -1,0 +1,35 @@
+<ion-app>
+  <ion-menu #menu contentId="main-content">
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button (click)="menu.close()"><ion-icon slot="icon-only" name="close"></ion-icon></ion-button>
+        </ion-buttons>
+        <ion-thumbnail slot="start">
+          <img alt="logo edutrack" src="assets/imgs/logo-sin-letras.png"/>
+        </ion-thumbnail>
+        <ion-title>EduTrack</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list>
+        <ion-item (click)="menu.close()" [routerLink]="['/home']" button detail="false"><ion-icon slot="start" name="home"></ion-icon>{{"lateral.clase" | translate}}</ion-item>
+        <ion-item (click)="menu.close()" [routerLink]="['/alumnos']" button detail="false"><ion-icon slot="start" name="checkbox-outline"></ion-icon>{{"lateral.alumno" | translate}}</ion-item>
+        <ion-item (click)="menu.close()" [routerLink]="['/about']" button detail="false"><ion-icon slot="start" name="accessibility-outline"></ion-icon>{{"lateral.about" | translate}}</ion-item>
+        <ion-item (click)="menu.close()" [routerLink]="['/profile']" button detail="false"><ion-icon slot="start" name="person-circle-outline"></ion-icon>{{"lateral.profile" | translate}}</ion-item>
+      </ion-list>
+    </ion-content>
+    <ion-item (click)="onLang()" button detail="false" *ngIf="auth.isLogged$" color="primary"><ion-icon slot="start" name="globe-outline"></ion-icon>{{translate.language$ | async | uppercase}}</ion-item>
+    <ion-item (click)="onSingOut()" button detail="false" color="danger"><ion-icon slot="start" name="log-out-outline"></ion-icon>{{"lateral.logout" | translate}}</ion-item>
+  </ion-menu>
+  <ion-fab slot="fixed" vertical="top" horizontal="end" [edge]="false" *ngIf="estaEnLogin">
+    <ion-fab-button (click)="onLang()">
+      <ion-label>{{translate.language$ | async | uppercase}}</ion-label>
+    </ion-fab-button>
+  </ion-fab>
+  <div class="ion-page" id="main-content">
+    <app-header *ngIf="auth.isLogged$ | async" 
+    [user]="user"></app-header>
+    <ion-router-outlet></ion-router-outlet>
+  </div>
+</ion-app>

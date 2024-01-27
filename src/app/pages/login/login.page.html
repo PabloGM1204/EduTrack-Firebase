@@ -1,0 +1,22 @@
+<ion-content [fullscreen]="true" style="background-image: src='assets/imgs/fondos/fondo-moderno.jpg';">
+  <div class="container">
+    <ion-card>
+      <ion-card-header>
+        <div class="logo">
+          <ion-thumbnail>
+            <img alt="logo of tasks" src="assets/imgs/logo-sin-fondo.png" />
+          </ion-thumbnail>
+        </div>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="ion-text-end">
+          <ion-button *ngIf="componenteLogin" (click)="cambioComponente()" fill="clear" style="text-transform: none;">{{"login.boton" | translate}}</ion-button>
+          <ion-button *ngIf="!componenteLogin" (click)="cambioComponente()" fill="clear" style="text-transform: none;">{{"login.boton2" | translate}}</ion-button>
+        </div>
+        <app-login-form *ngIf="componenteLogin" (hacerLogin)="onLogin($event)"></app-login-form>
+        <app-register-form *ngIf="!componenteLogin" (hacerRegister)="onRegister($event)"></app-register-form>
+      </ion-card-content>
+      <p id="texto">{{"login.texto" | translate}}</p>
+    </ion-card>
+  </div>
+</ion-content>

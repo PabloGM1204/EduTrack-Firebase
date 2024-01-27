@@ -1,0 +1,29 @@
+<ion-content>
+  <form [formGroup]="notaForm" (ngSubmit)="onSubmit()">
+    <ion-list lines="full" class="ion-no-margin ion-no-padding">
+      <ion-item>
+        <ion-label position="stacked">{{"modalNota.calificacion" | translate}}<ion-text color="danger">*</ion-text></ion-label>
+        <ion-input formControlName="calificacion" type="number" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">{{"modalNota.fecha" | translate}}<ion-text color="danger">*</ion-text></ion-label>
+        <ion-input formControlName="fecha" type="date" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">{{"modalNota.asignatura" | translate}}<ion-text color="danger">*</ion-text></ion-label>
+        <ion-input formControlName="asignatura" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">{{"modalNota.descripcion" | translate}}<ion-text color="danger">*</ion-text></ion-label>
+        <ion-textarea formControlName="descripcion"></ion-textarea>
+      </ion-item>
+    </ion-list>
+
+    <div class="ion-padding">
+      <ion-button expand="block" type="submit" class="ion-no-margin" [disabled]="!notaForm.valid">{{"cambios.guardar" | translate}}</ion-button>
+    </div>
+  </form>
+</ion-content>

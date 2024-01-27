@@ -1,0 +1,7 @@
+{
+  "name": "edutrack",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

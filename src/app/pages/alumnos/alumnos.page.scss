@@ -1,0 +1,44 @@
+#general {
+    top: 55px;
+    --ion-grid-column-padding: 8px;
+}
+  
+#general ion-grid {
+    padding: 16px;
+}
+  
+#general ion-row {
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+}
+  
+#general ion-col {
+    padding: 10px 0;
+}
+  
+#general ion-row:first-child {
+    font-weight: bold;
+}
+  
+#general ion-button {
+    margin-right: 8px;
+    --padding-start: 0;
+    --padding-end: 0;
+}
+  
+#general ion-icon {
+    font-size: 1.2em;
+}
+
+.acciones-container {
+    display: flex;
+    align-items: center;
+}
+  
+.acciones-container span {
+    margin-right: 8px;
+}
+
+ion-content{
+    --background: rgba(0, 64, 129, 0.737);
+}

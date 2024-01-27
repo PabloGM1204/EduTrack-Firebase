@@ -1,0 +1,75 @@
+{
+    "main":{
+        "hello":"Hola"
+    },
+    "login":{
+        "user":"Email",
+        "pwd":"Contraseña",
+        "noAccount":"Crear cuenta",
+        "submit":"Acceder",
+        "boton":"Crear cuenta",
+        "boton2":"Ya tengo una cuenta",
+        "texto": "Aplicacion de gestion sobre mesas, alumnos y sus notas"
+    },
+    "lateral":{
+        "clase": "Clase",
+        "alumno": "Alumno",
+        "about": "Sobre mi",
+        "profile": "Perfil",
+        "logout": "Salirse"
+    },
+    "alumnos":{
+        "nombre":"Nombre",
+        "fechaNacimiento":"Fecha-Nacimiento",
+        "email": "Email",
+        "acciones": "Acciones",
+        "selector": "Seleccione un alumno",
+        "ninguno": "Ninguno"
+    },
+    "about":{
+        "texto": "Información de la Aplicación",
+        "texto1": "¡Bienvenido a mi aplicación!",
+        "texto2": "es una aplicación de gestión de estudiantes que te permite manejar los alumnos de una clase de manera eficiente. Con Edutrack, puedes mover las mesas y asignar a un alumno a cada mesa. Además, puedes crear y eliminar mesas, lo que te permite tener un control total sobre la disposición de la clase. Edutrack también te permite realizar operaciones CRUD en los alumnos y sus notas, lo que te permite mantener un registro detallado de su progreso académico.",
+        "texto3": "Esta aplicación ha sido desarrollada por mi ",
+        "texto4": ", soy un joven de 19 años, nacido en España. Soy una persona amable y trabajadora, siempre dispuesto a ayudar a los demás. Me encanta pasar tiempo con mis amigos y familiares, y disfrutar de la música y los deportes. Me apasiona aprender cosas nuevas. En mi tiempo libre, me gusta leer y ver películas. Soy una persona muy sociable y me gusta estar rodeado de gente que quiero.",
+        "texto5": "Puedes conocer más sobre mi en los siguientes enlaces:",
+        "texto6": "Información del Desarrollador"
+    },
+    "cambios":{
+        "guardar": "Guardar",
+        "loading": "Cargando"
+    },
+    "info":{
+        "nuevoAlumno": "Nuevo Alumno",
+        "editarAlumno": "Editar Alumno",
+        "notas": "Notas"
+    },
+    "profile":{
+        "title": "Informacion Personal",
+        "name": "Nomber: ",
+        "logOut": "Salir",
+        "deleteAccount": "Eliminar Cuenta"
+    },
+    "modalNota":{
+        "calificacion": "Calificación",
+        "fecha": "Fecha",
+        "asignatura": "Asignatura",
+        "descripcion": "Descripción"
+    },
+    "nota":{
+        "texto": "No existen notas de este estudiante",
+        "boton": "Nueva nota",
+        "calificacion": "Calificación",
+        "fecha": "Fecha",
+        "asignatura": "Asignatura",
+        "descripcion": "Descripción",
+        "acciones": "Acciones"
+    },
+    "register": {
+        "texto": "Debe tener 8 caracteres, mínimo un número y una mayúscula",
+        "texto2": "Deben coincidir las contraseñas",
+        "nombreUsuario": "Nombre de usuario",
+        "contraseña": "Contraseña",
+        "confirmacion": "Repita la contraseña"
+    }
+}

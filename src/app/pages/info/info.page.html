@@ -1,0 +1,27 @@
+<ion-loading [isOpen]="!mostrarContenido" class="custom-loading" message='{{"cambios.loading" | translate}}...'></ion-loading>
+<ion-content [fullscreen]="true" id="general" *ngIf="mostrarContenido"  scroll-y="false">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="primary" fill="clear" (click)="onCancel()">
+        <ion-icon slot="icon-only" name="arrow-back-outline"/>
+      </ion-button>
+    </ion-buttons>
+    <ion-title *ngIf="dato !== 'notas'">
+      {{(dato == 'New'? ('info.nuevoAlumno' | translate) : ('info.editarAlumno' | translate) )}}
+    </ion-title>
+    <ion-title *ngIf="dato == 'notas'" class="title">
+      {{"info.notas" | translate}}
+    </ion-title>
+  </ion-toolbar>
+  <app-notas *ngIf="dato == 'notas'"
+  [notas]="notas"
+  [alumnoId]="id"
+  (nuevaNota)="anadirNota($event)"
+  (quitarNota)="eliminarNota($event)"
+  (actualizarNota)="editarNotar($event)">
+  </app-notas>
+  <app-alumno-detail *ngIf="dato !== 'notas'"
+    [alumno]="alumnoSeleccionado" 
+    (onsubmit)="onSubmit($event)">
+  </app-alumno-detail>
+</ion-content>

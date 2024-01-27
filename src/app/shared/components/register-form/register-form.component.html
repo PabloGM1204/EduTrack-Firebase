@@ -1,0 +1,27 @@
+<form *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()" (key.enter)="onSubmit()">
+  <ion-item>
+    <ion-input labelPlacement="stacked" label='{{"register.nombreUsuario" | translate}}' formControlName="nickname" type="text"></ion-input>
+    <ion-icon *ngIf="hasTouched('nickname') && hasError('nickname')" color="danger" slot="end" name="close-circle-outline"></ion-icon>
+    <ion-icon *ngIf="hasTouched('nickname') && !hasError('nickname')" color="success" slot="end" name="checkmark-circle-outline"></ion-icon>
+  </ion-item>
+  <ion-item>
+    <ion-input labelPlacement="stacked" label="Email" formControlName="email" type="text"></ion-input>
+    <ion-icon *ngIf="hasTouched('email') && hasError('email')" color="danger" slot="end" name="close-circle-outline"></ion-icon>
+    <ion-icon *ngIf="hasTouched('email') && !hasError('email')" color="success" slot="end" name="checkmark-circle-outline"></ion-icon>
+  </ion-item>
+  <ion-item>
+    <ion-input labelPlacement="stacked" label='{{"register.contraseña" | translate}}' formControlName="password" type="password"></ion-input>
+    <ion-icon *ngIf="hasTouched('password') && hasError('password')" color="danger" slot="end" name="close-circle-outline"></ion-icon>
+    <ion-icon *ngIf="hasTouched('password') && !hasError('password')" color="success" slot="end" name="checkmark-circle-outline"></ion-icon>
+  </ion-item>
+  <p class="error-message" *ngIf="hasTouched('password') && hasError('password')">{{"register.texto" | translate}}</p>  
+  <ion-item>
+    <ion-input labelPlacement="stacked" label='{{"register.confirmacion" | translate}}' formControlName="confirm" type="password"></ion-input>
+    <ion-icon *ngIf="hasTouched('confirm') && hasError('confirm')" color="danger" slot="end" name="close-circle-outline"></ion-icon>
+    <ion-icon *ngIf="hasTouched('confirm') && !hasError('confirm')" color="success" slot="end" name="checkmark-circle-outline"></ion-icon>
+  </ion-item>
+  <p class="error-message" *ngIf="hasTouched('confirm') && hasError('confirm')">{{"register.texto2" | translate}}</p>  
+  <div class="ion-text-end">
+    <ion-button style="text-transform: none;" (click)="onSubmit()">{{"login.noAccount" | translate}}</ion-button>
+  </div>
+</form>

@@ -1,0 +1,75 @@
+{
+    "main":{
+        "hello":"Hello"
+    },
+    "login":{
+        "user":"Email",
+        "pwd":"Password",
+        "noAccount":"Create Account",
+        "submit":"Access",
+        "boton":"Create account",
+        "boton2":"I have an account",
+        "texto": "Management application for tables, students and their notes"
+    },
+    "lateral":{
+        "clase": "Classroom",
+        "alumno": "Students",
+        "about": "About",
+        "profile": "Profile",
+        "logout": "Log out"
+    },
+    "alumnos":{
+        "nombre": "Name",
+        "fechaNacimiento": "Birthdate",
+        "email": "Email",
+        "acciones": "Actions",
+        "selector": "Select one student",
+        "ninguno": "None"
+    },
+    "about":{
+        "texto": "Application Information",
+        "texto1": "Welcome to my application!",
+        "texto2": "is a student management application that allows you to manage students in a class efficiently. With Edutrack, you can move desks and assign a student to each desk. Additionally, you can create and delete desks, which allows you to have complete control over the layout of the class. Edutrack also allows you to perform CRUD operations on students and their grades, which allows you to maintain a detailed record of their academic progress.",
+        "texto3": "This application has been developed by me ",
+        "texto4": ", I am a 19-year-old, born in Spain. I am a kind and hardworking person, always willing to help others. I love spending time with my friends and family, and enjoying music and sports. I am passionate about learning new things. In my free time, I like to read and watch movies. I am a very sociable person and I like to be surrounded by people I care about.",
+        "texto5": "You can learn more about me at the following links:",
+        "texto6": "Developer Information"
+    },
+    "cambios":{
+        "guardar": "Save",
+        "loading": "Loading"
+    },
+    "info":{
+        "nuevoAlumno": "New student",
+        "editarAlumno": "Edit student",
+        "notas": "Marks"
+    },
+    "profile":{
+        "title": "Personal Information",
+        "name": "Name: ",
+        "logOut": "Log out",
+        "deleteAccount": "Delete Account"
+    },
+    "modalNota":{
+        "calificacion": "Calification",
+        "fecha": "Date",
+        "asignatura": "Subject",
+        "descripcion": "Description"
+    },
+    "nota":{
+        "texto": "No marks for this student.",
+        "boton": "New mark",
+        "calificacion": "Calification",
+        "fecha": "Date",
+        "asignatura": "Subject",
+        "descripcion": "Description",
+        "acciones": "Actions"
+    },
+    "register": {
+        "texto": "Must have 8 characters, at least one number and one uppercase letter",
+        "texto2": "Passwords must match",
+        "nombreUsuario": "Username",
+        "contraseña": "Password",
+        "confirmacion": "Repeat password"
+    }
+}

@@ -1,0 +1,11 @@
+<div class="mesa"
+  appZoom
+  cdkDrag [ngStyle]="{'left.px': mesa?.posicion?.x, 'top.px': mesa?.posicion?.y}" 
+  (cdkDragStarted)="onDragStarted($event)" 
+  (cdkDragEnded)="dragEnded($event)" 
+  (click)="mesaClick()">
+  <div class="mesa-info">
+    <p class="mesa-nombre">{{mesa?.nombre}}</p>
+    <p class="alumno-nombre">{{mesa?.AlumnoNombre | primeraLetraMayusc}}</p>
+  </div>
+</div>

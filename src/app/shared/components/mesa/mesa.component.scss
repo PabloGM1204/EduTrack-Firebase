@@ -1,0 +1,40 @@
+.mesa {
+    position: absolute;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    width: 150px;
+    cursor: move;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+  
+.mesa-info {
+    text-align: center;
+}
+  
+.mesa-nombre, .alumno-nombre {
+    margin: 5px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+  
+.mesa-nombre {
+    font-weight: bold;
+    color: #333;
+}
+  
+.alumno-nombre {
+    font-size: 0.8em;
+    color: #666;
+}
+
+// Clase que se quita y se pone al arrastrar ya que hace uso de la directiva
+.zoomed {
+    width: 170px;
+    height: 95px;
+    background-color: aqua;
+}

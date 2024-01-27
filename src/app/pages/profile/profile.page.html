@@ -1,0 +1,27 @@
+<ion-content [fullscreen]="true" class="fondo">
+
+  <ion-card class="info-card">
+    <ion-card-header>
+      <ion-card-title class="card-title">{{"profile.title" | translate}}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content class="card-content">
+      <ion-label class="label">{{"profile.name" | translate}}</ion-label>
+      <ion-text class="info">{{user?.nickname}}</ion-text>
+
+      <ion-label class="label">Email:</ion-label>
+      <ion-text class="info">{{user?.name}}</ion-text>
+    </ion-card-content>
+  </ion-card>
+  <div class="button-container">
+    <ion-button class="logout-button" (click)="onSingOut()" color="danger">
+      <ion-icon slot="start" name="log-out-outline"></ion-icon>
+      {{"profile.logOut" | translate}}
+    </ion-button>
+    <!--<ion-button class="logout-button" (click)="onDeleteAccount()" color="danger">
+      <ion-icon slot="start" name="log-out-outline"></ion-icon>
+      {{"profile.deleteAccount" | translate}}
+    </ion-button>-->
+  </div>
+
+</ion-content>

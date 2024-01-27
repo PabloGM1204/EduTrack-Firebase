@@ -1,0 +1,47 @@
+ion-content{
+    top: 35px;
+    --background: url('../../../assets/imgs/fondos/fondo-moderno.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+ion-card {
+    margin-left: 30%;
+    margin-right: 30%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+  
+ion-card-title {
+    font-size: 1.5em;
+}
+  
+ion-item a {
+    color: #3880ff;
+    text-decoration: none;
+}
+  
+ion-item a:hover {
+    text-decoration: underline;
+}
+
+.mi-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: left;
+}
+  
+.mi-image {
+    max-width: 150px;
+    border-radius: 10%;
+    margin-right: 20px;
+}
+
+ion-card .list-md {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 10px;
+    margin-bottom: 0;
+    display: flex;
+}

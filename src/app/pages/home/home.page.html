@@ -1,0 +1,21 @@
+<div class="fondo">
+<ion-content [fullscreen]="false">
+
+  <!--Botón para crear una nueva mesa-->
+  <ion-button fill="clear" aria-label="Recargar Posicion" (click)="crearMesa()" class="boton-crear">
+    <ion-icon slot="icon-only" name="add-outline" aria-hidden="true"></ion-icon>
+  </ion-button>
+  
+  <div>
+    <ng-container >
+      <div class="mesas">
+        <app-mesa *ngFor="let mesa of mesas.mesas$| async" 
+        [mesa]="mesa"
+        (mesaClicked)="mesaClick(mesa)"></app-mesa>
+      </div>
+    </ng-container>
+  </div>
+
+</ion-content>
+
+</div>
