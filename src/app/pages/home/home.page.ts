@@ -21,7 +21,7 @@ export class HomePage {
   //TODO: añadir loading
 
   ngOnInit(): void{
-    this.mesas.getAll().subscribe()
+    // this.mesas.getAll().subscribe()
   }
 
   recargarMesas(){

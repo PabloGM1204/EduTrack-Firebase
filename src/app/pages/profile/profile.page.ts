@@ -10,7 +10,7 @@ import { AuthService } from 'src/app/core/services/api/strapi/auth.service';
 })
 export class ProfilePage implements OnInit {
 
-  user: User | undefined;
+  user: any | undefined;
 
   constructor(
     private auth: AuthService,
@@ -19,7 +19,10 @@ export class ProfilePage implements OnInit {
 
   ngOnInit() {
     this.auth.me().subscribe(_ => {
-      this.user = _
+      this.user = {
+        name: _.name,
+        email: _.email
+      }
     })
   }
 

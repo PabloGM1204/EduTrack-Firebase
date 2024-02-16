@@ -13,7 +13,7 @@ export class AppComponent {
 
   estaEnLogin: boolean = false;
   lang: string = "es";
-  user: User | undefined
+  user: any | undefined
   constructor(
     public auth: AuthService,
     private rotuer: Router,
@@ -32,8 +32,11 @@ export class AppComponent {
       if(logged){
         this.rotuer.navigate(['/home']);
         this.auth.me().subscribe(_ => {
-          console.log("Usuario logeado"+_.username)
-          this.user = _
+          console.log("Usuario logeado "+_.name)
+          this.user = {
+            name: _.name,
+            email: _.email
+          }
         })
       } else
         this.rotuer.navigate(['/login'])

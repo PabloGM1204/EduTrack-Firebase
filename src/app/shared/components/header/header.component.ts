@@ -9,12 +9,13 @@ import { User } from 'src/app/core/interfaces/user';
 })
 export class HeaderComponent  implements OnInit {
   
-  @Input() user: User | undefined;
+  @Input() user: any | undefined;
   constructor(
     private router: Router
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   onProfile(){
     this.router.navigate(['/profile'])

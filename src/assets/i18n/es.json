@@ -46,7 +46,7 @@
     },
     "profile":{
         "title": "Informacion Personal",
-        "name": "Nomber: ",
+        "name": "Nombre: ",
         "logOut": "Salir",
         "deleteAccount": "Eliminar Cuenta"
     },

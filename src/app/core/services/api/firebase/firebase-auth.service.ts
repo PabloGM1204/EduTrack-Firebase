@@ -70,24 +70,23 @@ export class FirebaseAuthService extends AuthService{
     });
   }
 
-  private postRegister(info:User):Observable<any>{
+  private postRegister(info:any):Observable<any>{
     if(info.uuid){
       console.log(info)
       return from(this.firebaseSvc.createDocumentWithId('users',{
-    username: info.nickname,
-    piture:info.picture??""
+        username: info.nickname,
+        email:info.email
     }, info.uuid))}
     throw new Error('Error inesperado');
   }
 
-  public me():Observable<User>{
+  public me():Observable<any>{
     if(this.firebaseSvc.user?.uid)
       return from(this.firebaseSvc.getDocument('users', this.firebaseSvc.user.uid)).pipe(map(data=>{
+        console.log("Datos de usuario logueado: "+ data.data['username']+" "+data.data['email'])
         return {
-          name:data.data['name'],
-          surname:data.data['surname'],
-          nickname:data.data['nickname'],
-          picture:data.data['picture']??"",
+          name:data.data['username'],
+          email:data.data['email'],
           uuid:data.id
         }
     }));
