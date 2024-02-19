@@ -1,5 +1,5 @@
 export interface Mesa {
-    id: number,
+    id: string,
     nombre: string,
     posicion: {
         x: number;

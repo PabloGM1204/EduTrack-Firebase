@@ -71,7 +71,7 @@ export class AlumnoService {
         console.log(_alumno)
         obs.next(_alumno);
         this.getAll().subscribe()
-        this.mesaSvc.getAll().subscribe()
+        //this.mesaSvc.getAll().subscribe()
       })
     })
   }

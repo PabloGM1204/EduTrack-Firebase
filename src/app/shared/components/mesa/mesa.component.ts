@@ -58,7 +58,7 @@ export class MesaComponent  implements OnInit {
       // Actualizo con el servicio los valores de la mesa
       this.mesaService.updateMesa(updatedMesa).subscribe({
         // En el caso de que todo vaya bien
-        next: (res) => console.log('Mesa actualizada con éxito', res),
+        next: (res) => console.log('Mesa actualizada con éxito'),
         // Si da algun error
         error: (err) => console.error('Error al actualizar la mesa', err)
       });

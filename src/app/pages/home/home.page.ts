@@ -21,7 +21,7 @@ export class HomePage {
   //TODO: añadir loading
 
   ngOnInit(): void{
-    // this.mesas.getAll().subscribe()
+    this.mesas.getAll().subscribe()
   }
 
   recargarMesas(){
@@ -33,7 +33,7 @@ export class HomePage {
       if (info.role === 'ok') {
         const nuevaMesa: Mesa = {
           nombre: info.data.nombre,
-          id: 0,
+          id: "0",
           posicion: { x: 100, y: 100 },
           AlumnoID: 0
         };
@@ -49,7 +49,7 @@ export class HomePage {
   }
 
   public async mesaClick(mesa: Mesa){
-    console.log("Mesa clickeado")
+    console.log("Mesa clickeado ", JSON.stringify(mesa));
     var onDismiss = (info:any) => {
       console.log(info);
       const nuevaMesa: Mesa = {
