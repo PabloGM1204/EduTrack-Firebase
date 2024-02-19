@@ -24,7 +24,7 @@ export class AlumnosPage implements OnInit {
     this.router.navigate(['/info', 'New'])
   }
 
-  editarAlumno(id: number){
+  editarAlumno(id: string){
     this.router.navigate(['/info', id])
   }
 
@@ -34,7 +34,7 @@ export class AlumnosPage implements OnInit {
     })
   }
 
-  actualizarNotas(id: number){
+  actualizarNotas(id: string){
     console.log("notas"+id)
     this.router.navigate(['/info', 'notas', id]);
   }

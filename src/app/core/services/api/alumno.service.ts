@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, catchError, lastValueFrom, map, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, from, lastValueFrom, map, tap } from 'rxjs';
 import { Alumno } from '../../interfaces/alumno';
 import { ApiService } from './api.service';
 import { environment } from 'src/environments/environment';
 import { MesaService } from './mesa.service';
+import { FirebaseDocument, FirebaseService } from '../firebase/firebase.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,101 +15,99 @@ export class AlumnoService {
   alumnos$: Observable<Alumno[]> = this._alumnos.asObservable();
 
   constructor(
-    private http: ApiService,
+    private firebaseSvc: FirebaseService,
     private mesaSvc: MesaService
   ) { }
 
   // ---------Métodos---------
 
   public getAll(): Observable<Alumno[]>{
-  
-    return this.http.get('/alumnos').pipe(map(response => response.data.map((item: { id: any; attributes: { Nombre: any; Email: any; FechaNacimiento: any }; }) => ({
-      id: item.id,
-      nombre: item.attributes.Nombre,
-      email: item.attributes.Email,
-      fechaNacimiento: item.attributes.FechaNacimiento
-    }))),
-    tap(alumnos => {
-      if(Array.isArray(alumnos)){
-        this._alumnos.next(alumnos);
-      } else{
-        console.log("ADIOS")
-      }
-    })
-    )
+    return from(this.firebaseSvc.getDocuments('alumnos')).pipe(
+      map((documents: any[]) => {
+        // Mapeamos los documentos de Firebase a objetos Mesa
+        return documents.map(document => ({
+          id: document.id,
+          nombre: document.data.Nombre,
+          email: document.data.Email,
+          fechaNacimiento: document.data.FechaNacimiento
+        }));
+      }),
+      tap(data => {
+        console.log('Datos devueltos de alumnos:', data),
+        this._alumnos.next(data)
+      })
+    );
   }
 
-  public query(q: string): Observable<Alumno[]>{
+  /*public query(q: string): Observable<Alumno[]>{
     return this.http.get('/alumnos?q='+q)
+  }*/
+
+  public getAlumno(id: string): Observable<Alumno>{
+    return from(this.firebaseSvc.getDocument('alumnos', id)).pipe(
+      map((alumno: any) => {
+        return {
+          id: alumno.id,
+          nombre: alumno.data.Nombre,
+          fechaNacimiento: alumno.data.FechaNacimiento,
+          email: alumno.data.Email
+        };
+      }),
+      tap(alumno => {
+        console.log("Alumno entrado: ", JSON.stringify(alumno));
+      }),
+      catchError(error => {
+        console.error("Error al obtener el alumno:", error);
+        throw error;
+      })
+    );
   }
 
-  public getAlumno(id: number): Observable<Alumno>{
-    return this.http.get(`/alumnos/${id}`).pipe(map(response => {
-      const attributes = response.data.attributes;
-      const alumnoMapeado: Alumno = {
-        id: response.data.id,
-        nombre: attributes.Nombre,
-        fechaNacimiento: attributes.FechaNacimiento,
-        email: attributes.Email
-      };
-      console.log("Alumno mapeado "+ alumnoMapeado.id);
-      return alumnoMapeado;
-    }))
-  }
 
-
-  public updateAlumno(_alumno: Alumno): Observable<Alumno> {
+  public updateAlumno(_alumno: Alumno): Observable<void> {
     console.log(_alumno.id)
     let actualizarAlumno = {
-      data: {
-        Nombre: _alumno.nombre,
-        FechaNacimiento: _alumno.fechaNacimiento,
-        Email: _alumno.email
-      }
+      Nombre: _alumno.nombre,
+      FechaNacimiento: _alumno.fechaNacimiento,
+      Email: _alumno.email
     }
-    return new Observable<Alumno>(obs =>{
-      this.http.put(`/alumnos/${_alumno.id}`, actualizarAlumno).subscribe(_=>{
-        console.log(_alumno)
-        obs.next(_alumno);
-        this.getAll().subscribe()
-        //this.mesaSvc.getAll().subscribe()
+    return from(this.firebaseSvc.updateDocument('alumnos', _alumno.id, actualizarAlumno)).pipe(
+      tap(_ => {
+        this.getAll().subscribe();
       })
-    })
+    );
   }
 
 
   public addAlumno(_alumno: Alumno): Observable<Alumno>{
     let crearAlumno = {
-      data: {
-        Nombre: _alumno.nombre,
-        FechaNacimiento: _alumno.fechaNacimiento,
-        Email: _alumno.email
-      }
+      Nombre: _alumno.nombre,
+      FechaNacimiento: _alumno.fechaNacimiento,
+      Email: _alumno.email
     };
     console.log(crearAlumno)
-    return this.http.post("/alumnos", crearAlumno).pipe(
+    return from(this.firebaseSvc.createDocument('alumnos', crearAlumno)).pipe(
+      map((uuid: string) => {
+        // Una vez que se ha creado el documento en la base de datos,
+        // devolvemos el objeto Mesa con su ID asignado
+        return {
+          ..._alumno,
+          uuid
+        };
+      }),
       tap(_ => {
         this.getAll().subscribe();
-      }),
-      catchError( error => {
-        console.log("Error creando Alumno");
-        throw error;
       })
     );
-    /*return this.http.post("/alumnos", _alumno).pipe(tap(_=>{
-      this.getAll().subscribe();
-    }))*/
   }
 
 
   public deleteAlumno(alumno: Alumno): Observable<Alumno>{
-    return new Observable<Alumno>(obs=>{
-      this.http.delete(`/alumnos/${alumno.id}`).subscribe(_=>{
-        this.getAll().subscribe(_=>{
-          obs.next(alumno);
-        });
-      });
-    });
+    return new Observable<Alumno> (obs => {from(this.firebaseSvc.deleteDocument('alumnos', alumno.id)).subscribe(_ => {
+      this.getAll().subscribe(_ => {
+        obs.next(alumno)
+      })
+    })})
   }
 
 

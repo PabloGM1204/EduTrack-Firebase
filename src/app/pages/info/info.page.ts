@@ -50,8 +50,6 @@ export class InfoPage implements OnInit {
       this.cargarNotas(this.id);
       // En el caso de que no sea notas ni tampoco new significa que es para editar un alumno, por lo que le paso el dato que es el id del alumno y lo cargo
     } else if(this.dato != 'New'){
-      // Lo paso a numero porque al pasarlo como parametro de la ruta se pasa como string
-      this.dato = Number(this.dato)
       // Cargamos el alumno
       this.cargarAlumno(this.dato)
     }
@@ -83,11 +81,12 @@ export class InfoPage implements OnInit {
   }
 
   // Para cargar el alumno
-  cargarAlumno(id: number){
+  cargarAlumno(id: string){
+    console.log("Id que se le pasa: "+id)
     this.alumnoSvc.getAlumno(id).subscribe(_ => {
       // Guardamos el alumno seleccionado en la variable de clase
       this.alumnoSeleccionado = _;
-      console.log(this.alumnoSeleccionado)
+      console.log("Alumno que se ha recogido por el id"+ JSON.stringify(this.alumnoSeleccionado))
     });
   }
 

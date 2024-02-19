@@ -42,33 +42,6 @@ export class MesaService {
     return this.http.get(environment.ApiStrapiUrl+`/mesas/${id}`);
   }*/
 
-
-  /*public updateMesa(mesa: Mesa): Observable<Mesa> {
-    console.log("Recibo mesa: "+mesa.posicion)
-    let actualizarMesa = {
-      data: {
-        NombreMesa: mesa.nombre,
-        posicion: mesa.posicion,
-        alumnoFK: mesa.AlumnoID !== undefined ? mesa.AlumnoID : null // Comprueba si el id es distinto undefined, si True pone el id si es False lo pone a null
-      }
-    }
-    return new Observable<Mesa>(obs => {
-      this.http.put(`/mesas/${mesa.id}`, actualizarMesa).subscribe({
-        next: (_) => {
-          obs.next(mesa); // Emitir la mesa actualizada
-          this.getAll().subscribe()
-        },
-        error: (err) => {
-          console.error('Error al actualizar la mesa:', err, 'Datos de la mesa:', actualizarMesa);
-          obs.error(err); // Emitir el error
-        },
-        complete: () => {
-          obs.complete(); // Completar el Observable
-        }
-      });
-    });
-  }*/
-
   public updateMesa(mesa: Mesa): Observable<void> {
     console.log("Recibo mesa: "+mesa.posicion)
     let actualizarMesa = {
