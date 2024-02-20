@@ -1,102 +1,108 @@
 import { Injectable } from '@angular/core';
 import { Nota } from '../../interfaces/nota';
-import { BehaviorSubject, Observable, map, tap } from 'rxjs';
+import { BehaviorSubject, Observable, from, map, of, switchMap, tap } from 'rxjs';
 import { ApiService } from './api.service';
+import { FirebaseService } from '../firebase/firebase.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotasService {
 // Lista de las mesas que hay
-private _notas: BehaviorSubject<Nota[]> = new BehaviorSubject<Nota[]>([]);
-notas$: Observable<Nota[]> = this._notas.asObservable();
+private _notas: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+notas$: Observable<any[]> = this._notas.asObservable();
 
 constructor(
-  private http: ApiService
+  private firebaseSvc: FirebaseService
 ) { }
 
 // ---------Métodos---------
 
-public getAll(): Observable<Nota[]>{
-  
-  return this.http.get('/notas/?populate=alumnoFK').pipe(map(response => response.data.map((item: { id: any; attributes: {
-    alumnoFK: any;
-    Asignatura: any; Calificacion: any; Fecha: any; Descripcion: any;
-}; }) => ({
-    id: item.id,
-    calificacion: item.attributes.Calificacion,
-    fecha: item.attributes.Fecha,
-    descripcion: item.attributes.Descripcion,
-    asignatura: item.attributes.Asignatura,
-    alumnoID: item.attributes.alumnoFK.data?.id
-  }))),
-  tap(nota => {
-    console.log(nota);
-    this._notas.next(nota);
-  })
-  )
-}
 
+public getNotasPorAlumno(alumnoId: any): Observable<any[]> {
+  console.log("Obteniendo notas para el alumno con ID:", alumnoId);
 
-public getNotasPorAlumno(alumnoId: number): Observable<Nota[]>{
-  return this.http.get(`/notas?filters[alumnoFK][id][$eq]=${alumnoId}&populate=*`).pipe(map(response => response.data.map((item: { id: any; attributes: {
-    alumnoFK: any; Asignatura: any; Calificacion: any; Fecha: any; Descripcion: any;
-}; }) => ({
-    id: item.id,
-    calificacion: item.attributes.Calificacion,
-    fecha: item.attributes.Fecha,
-    descripcion: item.attributes.Descripcion,
-    asignatura: item.attributes.Asignatura,
-    alumnoID: item.attributes.alumnoFK.data?.id,
-    alumnoNombre: item.attributes.alumnoFK.data?.attributes.Nombre
-  }))),
-  tap(nota => {
-    console.log(nota);
-    this._notas.next(nota);
-  })
-  )
-}
-
-public addNota(nota: Nota): Observable<Nota>{
-  var _nota = {
-    data: {
-      Calificacion: nota.calificacion,
-      Fecha: nota.fecha,
-      Asignatura: nota.asignatura,
-      Descripcion: nota.descripcion,
-      alumnoFK: nota.alumnoId
-    }
-  };
-  return this.http.post("/notas", _nota).pipe(tap(_=>{
-    this.getNotasPorAlumno(nota.id).subscribe(); // Mirar para que se actualice
-  }))
-}
-
-public updateNota(_nota: Nota): Observable<Nota> {
-  console.log(_nota.id)
-  let actualizarNota = {
-    data: {
-      Calificacion: _nota.calificacion,
-      Fecha: _nota.fecha,
-      Asignatura: _nota.asignatura,
-      Descripcion: _nota.descripcion,
-    }
-  }
-  return new Observable<Nota>(obs =>{
-    this.http.put(`/notas/${_nota.id}`, actualizarNota).subscribe(_=>{
-      console.log(_nota)
-      obs.next(_nota);
-      this.getNotasPorAlumno(_nota.id).subscribe()
+  return from(this.firebaseSvc.getDocumentsBy('notas', 'alumnoFK', alumnoId)).pipe(
+    tap(documents => {
+      console.log("Documentos obtenidos:", documents);
+    }),
+    map((documents: any[]) => {
+      console.log("Mapeando documentos...");
+      return documents.map((doc: any) => {
+        console.log("Procesando documento:", doc);
+        return {
+          id: doc.id,
+          calificacion: doc.data.calificacion,
+          fecha: doc.data.fecha,
+          descripcion: doc.data.descripcion,
+          asignatura: doc.data.asignatura,
+          alumnoID: doc.data.alumnoFK,
+        };
+      });
+    }),
+    tap(notas => {
+      console.log("Notas obtenidas:", notas);
+      this._notas.next(notas);
+      console.log("Notas emitidas al BehaviorSubject.");
     })
-  })
+  );
 }
 
-public deleteNota(nota: Nota): Observable<Nota[]>{
-  return new Observable<Nota[]>(obs=>{
-    this.http.delete(`/notas/${nota.id}`).subscribe(_=>{
-      this.getNotasPorAlumno(nota.id).subscribe(notasNuevas=>{
+
+
+public addNota(nota: any): Observable<Nota> {
+  var _nota = {
+    calificacion: nota.calificacion,
+    fecha: nota.fecha,
+    asignatura: nota.asignatura,
+    descripcion: nota.descripcion,
+    alumnoFK: nota.alumnoId
+  };
+
+  return from(this.firebaseSvc.createDocument('notas', _nota)).pipe(
+    switchMap((docId: string) => {
+      // Una vez que se ha creado el documento en la base de datos,
+      // devolvemos el objeto Nota con su ID asignado
+      return of({
+        id: docId,
+        ...nota
+      });
+    }),
+    tap(_ => {
+      this.getNotasPorAlumno(nota.alumnoId).subscribe(); // Actualizar notas por alumno
+    })
+  );
+}
+
+
+public updateNota(nota: any): Observable<any> {
+  let actualizarNota = {
+    calificacion: nota.calificacion,
+    fecha: nota.fecha,
+    asignatura: nota.asignatura,
+    descripcion: nota.descripcion
+  };
+
+  return new Observable<any>(obs => {
+    this.firebaseSvc.updateDocument('notas', nota.id, actualizarNota).then(() => {
+      obs.next(nota);
+      this.getNotasPorAlumno(nota.alumnoId).subscribe(); // Actualizar notas por alumno
+    }).catch(error => {
+      obs.error(error);
+    });
+  });
+}
+
+
+public deleteNota(nota: any): Observable<Nota[]> {
+  console.log("Eliminar nota " + JSON.stringify(nota))
+  return new Observable<any>(obs => {
+    this.firebaseSvc.deleteDocument('notas', nota.id).then(() => {
+      this.getNotasPorAlumno(nota.alumnoID).subscribe(notasNuevas => {
         obs.next(notasNuevas);
       });
+    }).catch(error => {
+      obs.error(error);
     });
   });
 }

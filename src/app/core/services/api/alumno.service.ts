@@ -27,9 +27,9 @@ export class AlumnoService {
         // Mapeamos los documentos de Firebase a objetos Mesa
         return documents.map(document => ({
           id: document.id,
-          nombre: document.data.Nombre,
-          email: document.data.Email,
-          fechaNacimiento: document.data.FechaNacimiento
+          nombre: document.data.nombre,
+          email: document.data.email,
+          fechaNacimiento: document.data.fechaNacimiento
         }));
       }),
       tap(data => {
@@ -48,9 +48,9 @@ export class AlumnoService {
       map((alumno: any) => {
         return {
           id: alumno.id,
-          nombre: alumno.data.Nombre,
-          fechaNacimiento: alumno.data.FechaNacimiento,
-          email: alumno.data.Email
+          nombre: alumno.data.nombre,
+          fechaNacimiento: alumno.data.fechaNacimiento,
+          email: alumno.data.email
         };
       }),
       tap(alumno => {
@@ -67,9 +67,9 @@ export class AlumnoService {
   public updateAlumno(_alumno: Alumno): Observable<void> {
     console.log(_alumno.id)
     let actualizarAlumno = {
-      Nombre: _alumno.nombre,
-      FechaNacimiento: _alumno.fechaNacimiento,
-      Email: _alumno.email
+      nombre: _alumno.nombre,
+      fechaNacimiento: _alumno.fechaNacimiento,
+      email: _alumno.email
     }
     return from(this.firebaseSvc.updateDocument('alumnos', _alumno.id, actualizarAlumno)).pipe(
       tap(_ => {
@@ -81,9 +81,9 @@ export class AlumnoService {
 
   public addAlumno(_alumno: Alumno): Observable<Alumno>{
     let crearAlumno = {
-      Nombre: _alumno.nombre,
-      FechaNacimiento: _alumno.fechaNacimiento,
-      Email: _alumno.email
+      nombre: _alumno.nombre,
+      fechaNacimiento: _alumno.fechaNacimiento,
+      email: _alumno.email
     };
     console.log(crearAlumno)
     return from(this.firebaseSvc.createDocument('alumnos', crearAlumno)).pipe(

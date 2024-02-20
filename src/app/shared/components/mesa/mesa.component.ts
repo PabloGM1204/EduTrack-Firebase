@@ -12,7 +12,7 @@ export class MesaComponent  implements OnInit {
 
   seEstaMoviendo = false;
 
-  @Input() mesa: Mesa | null = null;
+  @Input() mesa: any | null = null;
 
   @Output() mesaClicked: EventEmitter<void> = new EventEmitter<void>();
 

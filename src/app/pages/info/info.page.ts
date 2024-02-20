@@ -118,7 +118,7 @@ export class InfoPage implements OnInit {
   }
 
   // Para eliminar la nota
-  eliminarNota(nota: Nota){
+  eliminarNota(nota: any){
     this.notasSvc.deleteNota(nota).subscribe(notas => {
       this.notas = notas;
     })

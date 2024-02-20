@@ -23,23 +23,31 @@ export class MesaService {
 
   public getAll(): Observable<Mesa[]> {
     return from(this.firebaseSvc.getDocuments('mesas')).pipe(
-      map((documents: any[]) => {
-        console.log(documents)
-        // Mapeamos los documentos de Firebase a objetos Mesa
-        return documents.map(document => ({
-          id: document.id,
-          nombre: document.data.NombreMesa,
-          posicion: document.data.posicion,
-          AlumnoID: document.data.alumnoFK == 0 ? 0 : document.data.alumnoFK.id,
-          AlumnoNombre: document.data.alumnoFK == 0 ? "" : document.data.alumnoFK.nombre
-        }));
-      }),
-      tap(data => {
-        console.log('Datos devueltos:', data),
-        this._mesas.next(data)
-      })
+        map((documents: any[]) => {
+            console.log(documents)
+            // Mapeamos los documentos de Firebase a objetos Mesa
+            return documents.map(document => {
+                const mesa: any = {
+                    id: document.id,
+                    nombre: document.data.NombreMesa,
+                    posicion: document.data.posicion,
+                    AlumnoID: document.data.AlumnoID
+                };
+
+                // Si AlumnoID no es 0, añade NombreAlumno al objeto Mesa
+                if (mesa.AlumnoID !== 0) {
+                    mesa.NombreAlumno = document.data.AlumnoID.nombre;
+                }
+
+                return mesa;
+            });
+        }),
+        tap(data => {
+            console.log('Datos devueltos:', data),
+            this._mesas.next(data)
+        })
     );
-  }
+}
 
   /*public getMesa(id: number): Observable<Mesa>{
     return this.http.get(environment.ApiStrapiUrl+`/mesas/${id}`);
@@ -50,7 +58,7 @@ export class MesaService {
     let actualizarMesa = {
       NombreMesa: mesa.nombre,
       posicion: mesa.posicion,
-      alumnoFK: mesa.AlumnoID !== undefined ? mesa.AlumnoID : null // Comprueba si el id es distinto undefined, si True pone el id si es False lo pone a null
+      AlumnoID: mesa.AlumnoID !== undefined ? mesa.AlumnoID : "0" // Comprueba si el id es distinto undefined, si True pone el id si es False lo pone a null
     }
     return from(this.firebaseSvc.updateDocument('mesas', mesa.id, actualizarMesa)).pipe(
       tap(_ => {

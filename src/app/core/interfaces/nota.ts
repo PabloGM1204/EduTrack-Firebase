@@ -1,9 +1,9 @@
 export interface Nota{
-    id: number,
+    id: string,
     calificacion: number,
     fecha: string,
     descripcion: string,
     asignatura: string,
     alumnoId: number,
-    alumnoNombre: string
+    alumnoNombre?: string
 }

@@ -5,7 +5,7 @@
   (cdkDragEnded)="dragEnded($event)" 
   (click)="mesaClick()">
   <div class="mesa-info">
-    <p class="mesa-nombre">{{mesa?.nombre}}</p>
-    <p class="alumno-nombre">{{mesa?.AlumnoNombre }}</p>
+    <p class="mesa-nombre">{{ mesa?.nombre}}</p>
+    <p class="alumno-nombre">{{ mesa?.AlumnoID?.nombre }}</p>
   </div>
 </div>

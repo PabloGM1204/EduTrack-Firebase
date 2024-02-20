@@ -38,10 +38,10 @@ export class AlumnoSelectableComponent  implements OnInit, ControlValueAccessor 
     console.log(this.alumnos);
   }
 
-  private async selectAlumno(alumnoId: string | undefined, propagate: boolean = false){
-    console.log(alumnoId+" id que pide ")
+  private async selectAlumno(alumnoId: any | undefined, propagate: boolean = false){
+    console.log(JSON.stringify(alumnoId)+" id que pide ")
     if(alumnoId){
-      this.alumnoSelected = await lastValueFrom(this.alumnoSvc.getAlumno(alumnoId));
+      this.alumnoSelected = await lastValueFrom(this.alumnoSvc.getAlumno(alumnoId.id));
       console.log(this.alumnoSelected.id+ " Es el id")
     } else {
       this.alumnoSelected = undefined;

@@ -31,7 +31,7 @@ export class NotasComponent  implements OnInit {
       console.log(info);
       switch(info.role){
         case 'ok':{
-          const _nota = {
+          const _nota: any = {
             calificacion: info.data.calificacion,
             fecha: info.data.fecha,
             descripcion: info.data.descripcion,

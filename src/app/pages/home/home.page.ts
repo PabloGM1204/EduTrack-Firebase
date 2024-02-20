@@ -52,7 +52,7 @@ export class HomePage {
     console.log("Mesa clickeado ", JSON.stringify(mesa));
     var onDismiss = (info:any) => {
       console.log(info);
-      const nuevaMesa: Mesa = {
+      const nuevaMesa: any = {
         nombre: info.data.nombre,
         id: mesa.id,
         posicion: {
@@ -60,6 +60,9 @@ export class HomePage {
           y: mesa.posicion.y
         },
         AlumnoID: info.data.alumnoId
+      }
+      if (nuevaMesa.AlumnoID !== 0) {
+        nuevaMesa.NombreAlumno = info.data.alumnoId.nombre;
       }
       console.log(nuevaMesa)
       switch(info.role){
