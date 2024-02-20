@@ -4,6 +4,7 @@ import { Mesa } from '../../interfaces/mesa';
 import { environment } from 'src/environments/environment';
 import { ApiService } from './api.service';
 import { FirebaseDocument, FirebaseService } from '../firebase/firebase.service';
+import { AlumnoService } from './alumno.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class MesaService {
   mesas$: Observable<Mesa[]> = this._mesas.asObservable();
 
   constructor(
-    private firebaseSvc: FirebaseService
+    private firebaseSvc: FirebaseService,
   ) { }
 
   // ---------Métodos---------
@@ -23,12 +24,14 @@ export class MesaService {
   public getAll(): Observable<Mesa[]> {
     return from(this.firebaseSvc.getDocuments('mesas')).pipe(
       map((documents: any[]) => {
+        console.log(documents)
         // Mapeamos los documentos de Firebase a objetos Mesa
         return documents.map(document => ({
           id: document.id,
           nombre: document.data.NombreMesa,
           posicion: document.data.posicion,
-          AlumnoID: document.data.AlumnoID
+          AlumnoID: document.data.alumnoFK == 0 ? 0 : document.data.alumnoFK.id,
+          AlumnoNombre: document.data.alumnoFK == 0 ? "" : document.data.alumnoFK.nombre
         }));
       }),
       tap(data => {
