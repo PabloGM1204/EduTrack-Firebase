@@ -34,5 +34,9 @@
       <ion-button (click)="anadirNota()" class="ion-button">
         {{"nota.boton" | translate}}
       </ion-button>
+      <h1>Camera App</h1>
+      <button (click)="takePicture()">Take Picture</button>
+      <br>
+      <img *ngIf="capturedImage" [src]="capturedImage" alt="Captured Image">
     </div>
   </ion-content>

@@ -79,7 +79,7 @@ export class HomePage {
   }
 
   async presentForm(data: Mesa | null, onDismiss:(result:any)=>void){
-    
+    console.log("Datos del present form "+JSON.stringify(data))
     const modal = await this.modal.create({
       component: ModalSelectionComponent,
       componentProps:{

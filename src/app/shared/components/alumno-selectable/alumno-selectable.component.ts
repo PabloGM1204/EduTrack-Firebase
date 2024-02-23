@@ -19,7 +19,7 @@ export const ALUMNO_SELECTABLE_VALUE_ACCESOR: any = {
 })
 export class AlumnoSelectableComponent  implements OnInit, ControlValueAccessor {
 
-  alumnoSelected: Alumno | undefined;
+  alumnoSelected: any | undefined;
   disable: boolean = false;
   alumnos: Alumno[] = [];
 
@@ -40,15 +40,20 @@ export class AlumnoSelectableComponent  implements OnInit, ControlValueAccessor 
 
   private async selectAlumno(alumnoId: any | undefined, propagate: boolean = false){
     console.log(JSON.stringify(alumnoId)+" id que pide ")
+    console.log(JSON.stringify(this.alumnoSelected)+ " alumno seleccionado")
+    
     if(alumnoId){
-      this.alumnoSelected = await lastValueFrom(this.alumnoSvc.getAlumno(alumnoId.id));
+      console.log("Entra en el IF")
+      this.alumnoSelected = await lastValueFrom(this.alumnoSvc.getAlumno(alumnoId));
       console.log(this.alumnoSelected.id+ " Es el id")
     } else {
-      this.alumnoSelected = undefined;
+      this.alumnoSelected = {
+        id: 0
+      }
     }
 
     if(propagate)
-      this.propagateChange(this.alumnoSelected);
+      this.propagateChange(this.alumnoSelected!.id);
   }
 
   

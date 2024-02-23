@@ -3,6 +3,7 @@ import { Nota } from 'src/app/core/interfaces/nota';
 import { ModalNotaComponent } from '../modal-nota/modal-nota.component';
 import { ModalController } from '@ionic/angular';
 import { NotasService } from 'src/app/core/services/api/notas.service';
+import { Camera, CameraResultType } from '@capacitor/camera';
 
 @Component({
   selector: 'app-notas',
@@ -98,4 +99,14 @@ export class NotasComponent  implements OnInit {
     });
   }
 
+  capturedImage: string | undefined;
+
+  async takePicture() {
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: true,
+      resultType: CameraResultType.Uri
+    });
+    this.capturedImage = image.webPath;
+  }
 }

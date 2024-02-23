@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, from, map, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, forkJoin, from, map, of, switchMap, tap, throwError } from 'rxjs';
 import { Mesa } from '../../interfaces/mesa';
 import { environment } from 'src/environments/environment';
 import { ApiService } from './api.service';
 import { FirebaseDocument, FirebaseService } from '../firebase/firebase.service';
 import { AlumnoService } from './alumno.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -16,38 +17,51 @@ export class MesaService {
   mesas$: Observable<Mesa[]> = this._mesas.asObservable();
 
   constructor(
-    private firebaseSvc: FirebaseService,
+    private firebaseSvc: FirebaseService
   ) { }
 
   // ---------Métodos---------
 
   public getAll(): Observable<Mesa[]> {
     return from(this.firebaseSvc.getDocuments('mesas')).pipe(
-        map((documents: any[]) => {
-            console.log(documents)
-            // Mapeamos los documentos de Firebase a objetos Mesa
-            return documents.map(document => {
+        switchMap((documents: any[]) => {
+            const mesaObservables: Observable<Mesa>[] = documents.map(document => {
                 const mesa: any = {
                     id: document.id,
                     nombre: document.data.NombreMesa,
                     posicion: document.data.posicion,
-                    AlumnoID: document.data.AlumnoID
+                    AlumnoID: document.data.AlumnoID,
+                    NombreAlumno: ""
                 };
-
-                // Si AlumnoID no es 0, añade NombreAlumno al objeto Mesa
+                
+                // Verificar si hay un alumno asociado y obtener su nombre si es necesario
                 if (mesa.AlumnoID !== 0) {
-                    mesa.NombreAlumno = document.data.AlumnoID.nombre;
+                    return from(this.firebaseSvc.getDocument('alumnos', mesa.AlumnoID)).pipe(
+                        map((alumno: any) => {
+                          console.log("Datos del alumno para la mesa "+ JSON.stringify(alumno))
+                            mesa.NombreAlumno = alumno.data.nombre;
+                            return mesa;
+                        })
+                    );
+                } else {
+                    return of(mesa);
                 }
-
-                return mesa;
             });
+
+            // Unir todas las observables de mesas en un solo observable
+            return forkJoin(mesaObservables);
         }),
-        tap(data => {
-            console.log('Datos devueltos:', data),
-            this._mesas.next(data)
+        tap(mesas => {
+            console.log('Datos devueltos:', mesas);
+            this._mesas.next(mesas);
+        }),
+        catchError(error => {
+            console.error('Error al obtener las mesas:', error);
+            return throwError(error);
         })
     );
 }
+
 
   /*public getMesa(id: number): Observable<Mesa>{
     return this.http.get(environment.ApiStrapiUrl+`/mesas/${id}`);
