@@ -5,5 +5,6 @@ export interface Nota{
     descripcion: string,
     asignatura: string,
     alumnoId: number,
-    alumnoNombre?: string
+    alumnoNombre?: string,
+    foto?: any
 }

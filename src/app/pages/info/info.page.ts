@@ -8,6 +8,9 @@ import { Nota } from 'src/app/core/interfaces/nota';
 import { AlumnoService } from 'src/app/core/services/api/alumno.service';
 import { NotasService } from 'src/app/core/services/api/notas.service';
 import { ModalNotaComponent } from 'src/app/shared/components/modal-nota/modal-nota.component';
+import { dataURLtoBlob } from 'src/app/core/helpers/blob';
+import { FirebaseMediaService } from 'src/app/core/services/api/firebase/firebase-media.service';
+import { MediaService } from 'src/app/core/services/api/media.service';
 
 @Component({
   selector: 'app-info',
@@ -31,7 +34,8 @@ export class InfoPage implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private alumnoSvc: AlumnoService,
-    private notasSvc: NotasService
+    private notasSvc: NotasService,
+    private mediaSvc: MediaService
   ) {
     
   }
@@ -91,12 +95,23 @@ export class InfoPage implements OnInit {
   }
 
   // Para añadir una nota en el caso de que vayamos en el modo de notas
-  anadirNota(nota: Nota){
-    this.notasSvc.addNota(nota).subscribe({
-      next: () => {
-        this.cargarNotas(this.id)
-      }
-    })
+  anadirNota(nota: any){
+    dataURLtoBlob(nota.foto, (blob: Blob) =>{
+      this.mediaSvc.upload(blob).subscribe({
+        next:(media: any) => {
+          nota.foto = media[0]
+          this.notasSvc.addNota(nota).subscribe({
+            next: () => {
+              this.cargarNotas(this.id);
+            },
+            error: (error) => {
+              console.error('Error al añadir la nota:', error);
+            }
+          });
+        }
+      })
+      console.log("Nota ", nota)
+    });
   }
 
   // Para editar la nota la cual hemos seleccionado
@@ -128,6 +143,13 @@ export class InfoPage implements OnInit {
   cargarNotas(alumnoId: number) {
     this.notasSvc.getNotasPorAlumno(alumnoId).subscribe(notas => {
       this.notas = notas;
+    });
+  }
+
+  subirFoto(data: any){
+    console.log("Datos que me da la imagen ", data)
+    dataURLtoBlob(data, function(blob: any){
+      console.log("Esto es el blob", blob)
     });
   }
 

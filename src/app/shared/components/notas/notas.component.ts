@@ -18,6 +18,7 @@ export class NotasComponent  implements OnInit {
   @Output() actualizarNota: EventEmitter<Nota> = new EventEmitter<Nota>();
   @Output() quitarNota: EventEmitter<Nota> = new EventEmitter<Nota>();
   @Output() nuevaNota: EventEmitter<Nota> = new EventEmitter<Nota>();
+  @Output() subirFoto: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(
     private modal: ModalController
@@ -39,7 +40,8 @@ export class NotasComponent  implements OnInit {
             asignatura: info.data.asignatura,
             alumnoId: this.alumnoId,
             id: 0,
-            alumnoNombre: ""
+            alumnoNombre: "",
+            foto: info.data.imagen
           }
           console.log(_nota)
           this.nuevaNota.emit(_nota);
@@ -97,16 +99,5 @@ export class NotasComponent  implements OnInit {
         onDismiss(result);
       }
     });
-  }
-
-  capturedImage: string | undefined;
-
-  async takePicture() {
-    const image = await Camera.getPhoto({
-      quality: 90,
-      allowEditing: true,
-      resultType: CameraResultType.Uri
-    });
-    this.capturedImage = image.webPath;
   }
 }

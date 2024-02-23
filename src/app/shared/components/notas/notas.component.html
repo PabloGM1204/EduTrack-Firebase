@@ -13,6 +13,7 @@
         <ion-col size="2.5">{{"nota.fecha" | translate}}</ion-col>
         <ion-col size="2.5">{{"nota.asignatura" | translate}}</ion-col>
         <ion-col size="2.5">{{"nota.descripcion" | translate}}</ion-col>
+        <ion-col size="2">{{ "FOTO" }}</ion-col>
         <ion-col size="2">{{"nota.acciones" | translate}}</ion-col>
       </ion-row>
       <ion-row *ngFor="let nota of notas">
@@ -20,6 +21,7 @@
         <ion-col size="2.5">{{ nota.fecha }}</ion-col>
         <ion-col size="2.5">{{ nota.asignatura }}</ion-col>
         <ion-col size="2.5">{{ nota.descripcion | truncamiento:30 }}</ion-col>
+        <ion-col size="2.5"><img [src]="nota?.foto?.url_thumbnail" alt="Imagen de la nota"></ion-col>
         <ion-col size="2">
           <ion-button fill="clear" (click)="editarNota(nota)">
             <ion-icon name="create-outline"></ion-icon>
@@ -34,9 +36,5 @@
       <ion-button (click)="anadirNota()" class="ion-button">
         {{"nota.boton" | translate}}
       </ion-button>
-      <h1>Camera App</h1>
-      <button (click)="takePicture()">Take Picture</button>
-      <br>
-      <img *ngIf="capturedImage" [src]="capturedImage" alt="Captured Image">
     </div>
   </ion-content>

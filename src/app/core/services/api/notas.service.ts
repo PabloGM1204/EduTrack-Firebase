@@ -3,6 +3,8 @@ import { Nota } from '../../interfaces/nota';
 import { BehaviorSubject, Observable, from, map, of, switchMap, tap } from 'rxjs';
 import { ApiService } from './api.service';
 import { FirebaseService } from '../firebase/firebase.service';
+import { dataURLtoBlob } from '../../helpers/blob';
+import { FirebaseMediaService } from './firebase/firebase-media.service';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +39,7 @@ public getNotasPorAlumno(alumnoId: any): Observable<any[]> {
           descripcion: doc.data.descripcion,
           asignatura: doc.data.asignatura,
           alumnoID: doc.data.alumnoFK,
+          foto: doc.data.foto
         };
       });
     }),
@@ -56,8 +59,18 @@ public addNota(nota: any): Observable<Nota> {
     fecha: nota.fecha,
     asignatura: nota.asignatura,
     descripcion: nota.descripcion,
-    alumnoFK: nota.alumnoId
+    alumnoFK: nota.alumnoId,
+    foto: nota.foto
   };
+
+  console.log("Datos despues del blob ", _nota)
+
+  /*if(nota.foto){
+    this.media.upload(nota.foto).subscribe(_ => {
+      console.log("Respuesta de la imagen ", _)
+    })
+  }*/
+
 
   return from(this.firebaseSvc.createDocument('notas', _nota)).pipe(
     switchMap((docId: string) => {
@@ -80,7 +93,8 @@ public updateNota(nota: any): Observable<any> {
     calificacion: nota.calificacion,
     fecha: nota.fecha,
     asignatura: nota.asignatura,
-    descripcion: nota.descripcion
+    descripcion: nota.descripcion,
+    foto: nota.foto
   };
 
   return new Observable<any>(obs => {

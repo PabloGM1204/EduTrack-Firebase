@@ -18,9 +18,26 @@ import { createTranslateLoader } from './core/translate/translate';
 import { FirebaseService } from './core/services/firebase/firebase.service';
 import { FirebaseAuthService } from './core/services/api/firebase/firebase-auth.service';
 import { environment } from 'src/environments/environment';
+import { StrapiMediaService } from './core/services/api/strapi/strapi-media.service';
+import { FirebaseMediaService } from './core/services/api/firebase/firebase-media.service';
+import { MediaService } from './core/services/api/media.service';
 
 export function httpProviderFactory(http: HttpClient) {
   return new HttpClientWebProvider(http);
+}
+
+export function MediaServiceFactory(
+  backend:string,
+  api:ApiService,
+  firebase:FirebaseService){
+    switch(backend){
+      case 'Strapi':
+        return new StrapiMediaService(api);
+      case 'Firebase':
+        return new FirebaseMediaService(firebase)
+      default:
+        throw new Error("Not implemented");
+    }
 }
 
 export function AuthServiceFactory(
@@ -74,6 +91,11 @@ export function AuthServiceFactory(
       provide: AuthService,
       deps: ['backend',JwtService, ApiService, FirebaseService],
       useFactory: AuthServiceFactory,  
+    },
+    {
+      provide: MediaService,
+      deps: ['backend', ApiService, FirebaseService],
+      useFactory: MediaServiceFactory,  
     },
   ],
   bootstrap: [AppComponent],

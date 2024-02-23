@@ -12,5 +12,5 @@ import { StrapiUploadResponse } from '../../interfaces/strapi';
   providedIn: 'root'
 })
 export abstract class MediaService {  
-  public abstract upload(blob:Blob):Observable<number[]>;
+  public abstract upload(blob:Blob):Observable<any[]>;
 }

@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Camera, CameraResultType } from '@capacitor/camera';
 import { ModalController } from '@ionic/angular';
 import { Nota } from 'src/app/core/interfaces/nota';
+import { dataURLtoBlob } from 'src/app/core/helpers/blob';
 
 @Component({
   selector: 'app-modal-nota',
@@ -29,7 +31,8 @@ export class ModalNotaComponent  implements OnInit {
       calificacion:[0, [Validators.required]],
       fecha:['', [Validators.required]],
       asignatura:['', [Validators.required]],
-      descripcion:['', [Validators.required]]
+      descripcion:['', [Validators.required]],
+      imagen:['']
     })
   }
 
@@ -40,5 +43,19 @@ export class ModalNotaComponent  implements OnInit {
   onSubmit(){
     this._modal.dismiss(this.notaForm.value, 'ok');
   } 
+
+  capturedImage: string | undefined = "";
+
+  async takePicture() {
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: true,
+      resultType: CameraResultType.Uri
+    });
+    this.capturedImage = image.webPath;
+    this.notaForm.patchValue({
+      imagen: this.capturedImage
+    })
+  }
 
 }
