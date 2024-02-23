@@ -29,7 +29,8 @@ export class AlumnoService {
           id: document.id,
           nombre: document.data.nombre,
           email: document.data.email,
-          fechaNacimiento: document.data.fechaNacimiento
+          fechaNacimiento: document.data.fechaNacimiento,
+          foto: document.data.foto
         }));
       }),
       tap(data => {
@@ -50,7 +51,8 @@ export class AlumnoService {
           id: alumno.id,
           nombre: alumno.data.nombre,
           fechaNacimiento: alumno.data.fechaNacimiento,
-          email: alumno.data.email
+          email: alumno.data.email,
+          foto: alumno.foto
         };
       }),
       tap(alumno => {
@@ -69,7 +71,8 @@ export class AlumnoService {
     let actualizarAlumno = {
       nombre: _alumno.nombre,
       fechaNacimiento: _alumno.fechaNacimiento,
-      email: _alumno.email
+      email: _alumno.email,
+      foto: _alumno.foto
     }
     return from(this.firebaseSvc.updateDocument('alumnos', _alumno.id, actualizarAlumno)).pipe(
       tap(_ => {
@@ -83,7 +86,8 @@ export class AlumnoService {
     let crearAlumno = {
       nombre: _alumno.nombre,
       fechaNacimiento: _alumno.fechaNacimiento,
-      email: _alumno.email
+      email: _alumno.email,
+      foto: _alumno.foto
     };
     console.log(crearAlumno)
     return from(this.firebaseSvc.createDocument('alumnos', crearAlumno)).pipe(

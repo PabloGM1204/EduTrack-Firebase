@@ -32,7 +32,7 @@ export class ModalNotaComponent  implements OnInit {
       fecha:['', [Validators.required]],
       asignatura:['', [Validators.required]],
       descripcion:['', [Validators.required]],
-      imagen:['']
+      //imagen:['']
     })
   }
 
@@ -44,9 +44,9 @@ export class ModalNotaComponent  implements OnInit {
     this._modal.dismiss(this.notaForm.value, 'ok');
   } 
 
-  capturedImage: string | undefined = "";
+  //capturedImage: string | undefined = "";
 
-  async takePicture() {
+  /*async takePicture() {
     const image = await Camera.getPhoto({
       quality: 90,
       allowEditing: true,
@@ -56,6 +56,6 @@ export class ModalNotaComponent  implements OnInit {
     this.notaForm.patchValue({
       imagen: this.capturedImage
     })
-  }
+  }*/
 
 }

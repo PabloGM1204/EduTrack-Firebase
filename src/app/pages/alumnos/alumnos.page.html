@@ -1,9 +1,10 @@
 <ion-content [fullscreen]="true" id="general">
   <ion-grid>
     <ion-row>
-      <ion-col size="3">{{"alumnos.nombre" | translate}}</ion-col>
-      <ion-col size="3">{{"alumnos.fechaNacimiento" | translate}}</ion-col>
-      <ion-col size="3">{{"alumnos.email" | translate}}</ion-col>
+      <ion-col size="2">{{"alumnos.nombre" | translate}}</ion-col>
+      <ion-col size="2">{{"alumnos.fechaNacimiento" | translate}}</ion-col>
+      <ion-col size="2">{{"alumnos.email" | translate}}</ion-col>
+      <ion-col size="3">{{ "Foto" }}</ion-col>
       <ion-col size="3">
         <div class="acciones-container">
           <span>{{"alumnos.acciones" | translate}}</span>
@@ -14,9 +15,10 @@
       </ion-col>
     </ion-row>
     <ion-row *ngFor="let alum of alumnosSvc.alumnos$ | async">
-      <ion-col size="3">{{ alum.nombre | primeraLetraMayusc}}</ion-col>
-      <ion-col size="3">{{ alum.fechaNacimiento }}</ion-col>
-      <ion-col size="3">{{ alum.email }}</ion-col>
+      <ion-col size="2">{{ alum.nombre | primeraLetraMayusc}}</ion-col>
+      <ion-col size="2">{{ alum.fechaNacimiento }}</ion-col>
+      <ion-col size="2">{{ alum.email }}</ion-col>
+      <ion-col size="3"><ion-avatar><img [src]="alum?.foto?.url_thumbnail" alt="Imagen del alumno"></ion-avatar></ion-col>
       <ion-col size="3">
         <ion-button fill="clear" (click)="editarAlumno(alum.id)" color="secondary">
           <ion-icon name="create-outline"></ion-icon>

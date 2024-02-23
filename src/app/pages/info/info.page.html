@@ -18,8 +18,7 @@
   [alumnoId]="id"
   (nuevaNota)="anadirNota($event)"
   (quitarNota)="eliminarNota($event)"
-  (actualizarNota)="editarNotar($event)"
-  (subirFoto)="subirFoto($event)">
+  (actualizarNota)="editarNotar($event)">
   </app-notas>
   <app-alumno-detail *ngIf="dato !== 'notas'"
     [alumno]="alumnoSeleccionado" 

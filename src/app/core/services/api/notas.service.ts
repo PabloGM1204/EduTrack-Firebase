@@ -39,7 +39,7 @@ public getNotasPorAlumno(alumnoId: any): Observable<any[]> {
           descripcion: doc.data.descripcion,
           asignatura: doc.data.asignatura,
           alumnoID: doc.data.alumnoFK,
-          foto: doc.data.foto
+          //foto: doc.data.foto
         };
       });
     }),
@@ -60,7 +60,7 @@ public addNota(nota: any): Observable<Nota> {
     asignatura: nota.asignatura,
     descripcion: nota.descripcion,
     alumnoFK: nota.alumnoId,
-    foto: nota.foto
+    //foto: nota.foto
   };
 
   console.log("Datos despues del blob ", _nota)
@@ -94,7 +94,7 @@ public updateNota(nota: any): Observable<any> {
     fecha: nota.fecha,
     asignatura: nota.asignatura,
     descripcion: nota.descripcion,
-    foto: nota.foto
+    //foto: nota.foto
   };
 
   return new Observable<any>(obs => {

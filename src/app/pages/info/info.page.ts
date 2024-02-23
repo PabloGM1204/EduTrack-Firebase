@@ -67,14 +67,22 @@ export class InfoPage implements OnInit {
   }
 
   // Para cuando estemos o creando un nuevo alumno o editandolo y le demos a guardar
-  onSubmit(alumno: Alumno){
+  onSubmit(alumno: any){
     console.log(alumno)
     // En el caso de que sea un nuevo alumno
     if(this.dato == 'New'){
-      this.alumnoSvc.addAlumno(alumno).subscribe(_ =>{
-        console.log("Alumno creado");
-        this.router.navigate(['/alumnos']);
-      })
+      dataURLtoBlob(alumno.imagen, (blob: Blob) =>{
+        this.mediaSvc.upload(blob).subscribe({
+          next:(media: any) => {
+            alumno.foto = media[0]
+            this.alumnoSvc.addAlumno(alumno).subscribe(_ =>{
+              console.log("Alumno creado");
+              this.router.navigate(['/alumnos']);
+            });
+          }
+        })
+        console.log("Nota ", alumno)
+      });
     } else {
       // En el caso de que sea un alumno editado
       this.alumnoSvc.updateAlumno(alumno).subscribe(_ => {
@@ -96,22 +104,21 @@ export class InfoPage implements OnInit {
 
   // Para añadir una nota en el caso de que vayamos en el modo de notas
   anadirNota(nota: any){
-    dataURLtoBlob(nota.foto, (blob: Blob) =>{
+    this.notasSvc.addNota(nota).subscribe({
+      next: () => {
+        this.cargarNotas(this.id);
+      }
+    })
+    /*dataURLtoBlob(nota.foto, (blob: Blob) =>{
       this.mediaSvc.upload(blob).subscribe({
         next:(media: any) => {
           nota.foto = media[0]
-          this.notasSvc.addNota(nota).subscribe({
-            next: () => {
-              this.cargarNotas(this.id);
-            },
-            error: (error) => {
-              console.error('Error al añadir la nota:', error);
-            }
+          
           });
         }
       })
       console.log("Nota ", nota)
-    });
+    });*/
   }
 
   // Para editar la nota la cual hemos seleccionado

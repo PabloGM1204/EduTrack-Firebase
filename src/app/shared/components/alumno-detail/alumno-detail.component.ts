@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Camera, CameraResultType } from '@capacitor/camera';
 import { Alumno } from 'src/app/core/interfaces/alumno';
 
 @Component({
@@ -28,7 +29,8 @@ export class AlumnoDetailComponent  implements OnInit {
       id:[null],
       nombre:['', [Validators.required]],
       email:['', [Validators.required]],
-      fechaNacimiento:['2001-01-01', [Validators.required]]
+      fechaNacimiento:['2001-01-01', [Validators.required]],
+      imagen:['']
     })
   }
 
@@ -37,6 +39,20 @@ export class AlumnoDetailComponent  implements OnInit {
   onSubmit(){
     console.log(this.form.value)
     this.onsubmit.emit(this.form.value)
+  }
+
+  capturedImage: string | undefined = "";
+
+  async takePicture() {
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: true,
+      resultType: CameraResultType.Uri
+    });
+    this.capturedImage = image.webPath;
+    this.form.patchValue({
+      imagen: this.capturedImage
+    })
   }
 
 }

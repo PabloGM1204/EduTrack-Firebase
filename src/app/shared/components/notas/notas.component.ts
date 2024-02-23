@@ -41,7 +41,7 @@ export class NotasComponent  implements OnInit {
             alumnoId: this.alumnoId,
             id: 0,
             alumnoNombre: "",
-            foto: info.data.imagen
+            //foto: info.data.imagen
           }
           console.log(_nota)
           this.nuevaNota.emit(_nota);
