@@ -1,3 +1,10 @@
 ion-content{
     --background: transparent;
 }
+
+#contenedor-foto{
+    margin-top: 10px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
