@@ -5,6 +5,8 @@ import { ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ModalSelectionComponent } from 'src/app/shared/components/modal-selection/modal-selection.component';
 import { BehaviorSubject } from 'rxjs';
+import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
+
 
 @Component({
   selector: 'app-home',
@@ -15,13 +17,15 @@ export class HomePage {
 
   constructor(
     public mesas: MesaService,
-    private modal: ModalController
+    private modal: ModalController,
+    private screen: ScreenOrientation
   ) {}
 
   //TODO: añadir loading
 
   ngOnInit(): void{
     this.mesas.getAll().subscribe()
+    this.screen.lock(this.screen.ORIENTATIONS.LANDSCAPE)
   }
 
   recargarMesas(){

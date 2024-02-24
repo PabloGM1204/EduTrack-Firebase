@@ -21,6 +21,8 @@ import { environment } from 'src/environments/environment';
 import { StrapiMediaService } from './core/services/api/strapi/strapi-media.service';
 import { FirebaseMediaService } from './core/services/api/firebase/firebase-media.service';
 import { MediaService } from './core/services/api/media.service';
+import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
+
 
 export function httpProviderFactory(http: HttpClient) {
   return new HttpClientWebProvider(http);
@@ -74,6 +76,7 @@ export function AuthServiceFactory(
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    ScreenOrientation,
     {
       provide: 'firebase-config',
       useValue:environment.firebase
