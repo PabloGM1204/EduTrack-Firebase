@@ -45,7 +45,7 @@ export class AlumnoDetailComponent  implements OnInit {
     this.onsubmit.emit(this.form.value)
   }
 
-  capturedImage: string | undefined = "";
+  capturedImage: string | undefined = "https://firebasestorage.googleapis.com/v0/b/fir-project-91ee3.appspot.com/o/images%2Fprofile.png?alt=media&token=cf7e68cc-c045-4fa3-978b-8281d42fcd51";
 
   async takePicture() {
     const image = await Camera.getPhoto({

@@ -87,7 +87,7 @@ export class AlumnoService {
       nombre: _alumno.nombre,
       fechaNacimiento: _alumno.fechaNacimiento,
       email: _alumno.email,
-      foto: _alumno.foto.url_thumbnail
+      foto: _alumno.foto
     };
     console.log(crearAlumno)
     return from(this.firebaseSvc.createDocument('alumnos', crearAlumno)).pipe(

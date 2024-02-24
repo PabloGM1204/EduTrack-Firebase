@@ -71,18 +71,30 @@ export class InfoPage implements OnInit {
     console.log(alumno)
     // En el caso de que sea un nuevo alumno
     if(this.dato == 'New'){
-      dataURLtoBlob(alumno.imagen, (blob: Blob) =>{
-        this.mediaSvc.upload(blob).subscribe({
-          next:(media: any) => {
-            alumno.foto = media[0]
-            this.alumnoSvc.addAlumno(alumno).subscribe(_ =>{
-              console.log("Alumno creado");
-              this.router.navigate(['/alumnos']);
-            });
-          }
-        })
-        console.log("Nota ", alumno)
-      });
+      if(alumno.imagen.startsWith('http')){
+        console.log("Alumno que recibo ", alumno)
+        let _alumno: Alumno = {
+          ...alumno,
+          foto: alumno.imagen
+        }
+        this.alumnoSvc.addAlumno(_alumno).subscribe(_ =>{
+          console.log("Alumno creado");
+          this.router.navigate(['/alumnos']);
+        });
+      } else {
+        dataURLtoBlob(alumno.imagen, (blob: Blob) =>{
+          this.mediaSvc.upload(blob).subscribe({
+            next:(media: any) => {
+              alumno.foto = media[0].url_thumbnail
+              this.alumnoSvc.addAlumno(alumno).subscribe(_ =>{
+                console.log("Alumno creado");
+                this.router.navigate(['/alumnos']);
+              });
+            }
+          })
+          console.log("Nota ", alumno)
+        });
+      }
     } else {
       // En el caso de que sea un alumno editado
       if(alumno.imagen.startsWith('http')){
