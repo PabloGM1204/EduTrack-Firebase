@@ -37,7 +37,8 @@
     },
     "cambios":{
         "guardar": "Save",
-        "loading": "Loading"
+        "loading": "Loading",
+        "foto": "Take a pciture"
     },
     "info":{
         "nuevoAlumno": "New student",

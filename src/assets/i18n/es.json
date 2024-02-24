@@ -37,7 +37,8 @@
     },
     "cambios":{
         "guardar": "Guardar",
-        "loading": "Cargando"
+        "loading": "Cargando",
+        "foto": "Hacer una foto"
     },
     "info":{
         "nuevoAlumno": "Nuevo Alumno",
