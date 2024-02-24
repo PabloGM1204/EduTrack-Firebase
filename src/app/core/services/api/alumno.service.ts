@@ -52,7 +52,7 @@ export class AlumnoService {
           nombre: alumno.data.nombre,
           fechaNacimiento: alumno.data.fechaNacimiento,
           email: alumno.data.email,
-          foto: alumno.foto
+          foto: alumno.data.foto
         };
       }),
       tap(alumno => {
@@ -87,7 +87,7 @@ export class AlumnoService {
       nombre: _alumno.nombre,
       fechaNacimiento: _alumno.fechaNacimiento,
       email: _alumno.email,
-      foto: _alumno.foto
+      foto: _alumno.foto.url_thumbnail
     };
     console.log(crearAlumno)
     return from(this.firebaseSvc.createDocument('alumnos', crearAlumno)).pipe(

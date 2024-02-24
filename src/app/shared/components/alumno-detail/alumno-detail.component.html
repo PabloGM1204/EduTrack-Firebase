@@ -12,9 +12,8 @@
       <ion-label position="floating">Email</ion-label>
       <ion-input formControlName="email" type="email"></ion-input>
     </ion-item>
+    <ion-avatar><img [src]="capturedImage" alt="Imagen del alumno"></ion-avatar>
     <ion-button (click)="takePicture()">Take Picture</ion-button>
-      <br>
-      <img *ngIf="capturedImage" [src]="capturedImage" alt="Captured Image">
   </form>
   <ion-footer>
     <ion-button type="submit" class="ion-padding" expand="full" (click)="onSubmit()">{{"cambios.guardar" | translate}}</ion-button>

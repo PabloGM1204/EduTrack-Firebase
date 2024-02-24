@@ -17,6 +17,7 @@ export class AlumnoDetailComponent  implements OnInit {
       this.form.controls['nombre'].setValue(_alumno?.nombre);
       this.form.controls['fechaNacimiento'].setValue(_alumno?.fechaNacimiento);
       this.form.controls['email'].setValue(_alumno?.email);
+      this.capturedImage = _alumno?.foto
     }
   }
 
@@ -37,6 +38,9 @@ export class AlumnoDetailComponent  implements OnInit {
   ngOnInit() {}
 
   onSubmit(){
+    this.form.patchValue({
+      imagen: this.capturedImage
+    })
     console.log(this.form.value)
     this.onsubmit.emit(this.form.value)
   }
@@ -50,9 +54,9 @@ export class AlumnoDetailComponent  implements OnInit {
       resultType: CameraResultType.Uri
     });
     this.capturedImage = image.webPath;
-    this.form.patchValue({
+    /*this.form.patchValue({
       imagen: this.capturedImage
-    })
+    })*/
   }
 
 }

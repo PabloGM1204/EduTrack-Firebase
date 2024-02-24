@@ -85,10 +85,29 @@ export class InfoPage implements OnInit {
       });
     } else {
       // En el caso de que sea un alumno editado
-      this.alumnoSvc.updateAlumno(alumno).subscribe(_ => {
-        console.log("Alumno modificado");
-        this.router.navigate(['/alumnos']);
-      })
+      if(alumno.imagen.startsWith('http')){
+        console.log("Alumno que recibo ", alumno)
+        let _alumno: Alumno = {
+          ...alumno,
+          foto: alumno.imagen
+        }
+        this.alumnoSvc.updateAlumno(_alumno).subscribe(_ => {
+          console.log("Alumno modificado");
+          this.router.navigate(['/alumnos']);
+        })
+      } else {
+        dataURLtoBlob(alumno.imagen, (blob: Blob) => {
+          this.mediaSvc.upload(blob).subscribe({
+            next:(media: any) => {
+              alumno.foto = media[0].url_thumbnail
+              this.alumnoSvc.updateAlumno(alumno).subscribe(_ => {
+                console.log("Alumno modificado");
+                this.router.navigate(['/alumnos']);
+              })
+            }
+          })
+        })
+      }
     }
   }
 

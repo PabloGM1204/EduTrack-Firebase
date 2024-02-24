@@ -18,7 +18,7 @@
       <ion-col size="2">{{ alum.nombre | primeraLetraMayusc}}</ion-col>
       <ion-col size="2">{{ alum.fechaNacimiento }}</ion-col>
       <ion-col size="2">{{ alum.email }}</ion-col>
-      <ion-col size="3"><ion-avatar><img [src]="alum?.foto?.url_thumbnail" alt="Imagen del alumno"></ion-avatar></ion-col>
+      <ion-col size="3"><ion-avatar><img [src]="alum?.foto" alt="Imagen del alumno"></ion-avatar></ion-col>
       <ion-col size="3">
         <ion-button fill="clear" (click)="editarAlumno(alum.id)" color="secondary">
           <ion-icon name="create-outline"></ion-icon>
