@@ -4,8 +4,9 @@ import { Mesa } from 'src/app/core/interfaces/mesa';
 import { ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ModalSelectionComponent } from 'src/app/shared/components/modal-selection/modal-selection.component';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, async, forkJoin, from, map, of, switchMap } from 'rxjs';
 import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
+import { FirebaseService } from 'src/app/core/services/firebase/firebase.service';
 
 
 @Component({
@@ -18,14 +19,38 @@ export class HomePage {
   constructor(
     public mesas: MesaService,
     private modal: ModalController,
-    private screen: ScreenOrientation
+    private screen: ScreenOrientation,
+    private firebaseSvc: FirebaseService
   ) {}
 
   //TODO: añadir loading
 
   ngOnInit(): void{
-    this.mesas.getAll().subscribe()
-    this.screen.lock(this.screen.ORIENTATIONS.LANDSCAPE)
+    this.screen.lock(this.screen.ORIENTATIONS.LANDSCAPE);
+    this.mesas.subscribeToMesasCollection();
+    this.mesas.mesas$.pipe(
+      switchMap(mesas => {
+          const mesasPromises = mesas.map((mesa: any) => {
+              // Verificar si hay un alumno asociado y obtener su nombre si es necesario
+              if (mesa.AlumnoID !== 0) {
+                console.log("ID DEL ALUMNO ",mesa.AlumnoID)
+                  return from(this.firebaseSvc.getDocument('alumnos', mesa.AlumnoID)).pipe(
+                      map((alumno: any) => {
+                          mesa.NombreAlumno = alumno.data.nombre;
+                          return mesa;
+                      })
+                  );
+              } else {
+                  return of(mesa);
+              }
+          });
+
+          return forkJoin(mesasPromises);
+      })
+  ).subscribe(mesas => {
+      console.log('Mesas actualizadas:', mesas);
+
+  })
   }
 
   recargarMesas(){

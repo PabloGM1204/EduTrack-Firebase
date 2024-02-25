@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { ApiService } from './api.service';
 import { FirebaseDocument, FirebaseService } from '../firebase/firebase.service';
 import { AlumnoService } from './alumno.service';
+import { Unsubscribe } from 'firebase/firestore';
 
 
 @Injectable({
@@ -60,6 +61,19 @@ export class MesaService {
             return throwError(error);
         })
     );
+}
+
+public subscribeToMesasCollection(): Unsubscribe | null {
+  return this.firebaseSvc.subscribeToCollection('mesas', this._mesas, (snapshot: any) => {
+    const data = snapshot.data();
+      return {
+          id: snapshot.id,
+          nombre: data.NombreMesa,
+          posicion: data.posicion,
+          AlumnoID: data.AlumnoID,
+          NombreAlumno: ""
+      };
+  });
 }
 
 

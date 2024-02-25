@@ -185,13 +185,10 @@ export class InfoPage implements OnInit {
     });*/
     this.notasSvc.notas$.pipe(
       map(notas => notas.filter(nota => nota.alumnoID === alumnoId))
-    ).subscribe(filteredNotas => {
-      this.notas = filteredNotas;
-      console.log("RESULTADO DE LAS NOTAS FILTRADAS", this.notas);
-    });
-  
-    // Llamar al método para suscribirse a la colección de notas
-     // Supongamos que 123 es el ID del alumno
+      ).subscribe(filteredNotas => {
+        this.notas = filteredNotas;
+        console.log("RESULTADO DE LAS NOTAS FILTRADAS", this.notas);
+      });
   }
 
   subirFoto(data: any){
