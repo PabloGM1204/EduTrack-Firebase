@@ -39,7 +39,7 @@ export class AppComponent {
           }
         })
       } else
-        this.rotuer.navigate(['/login'])
+        this.rotuer.navigate(['/loading'])
     });
     this.translate.use(this.lang)
   }
