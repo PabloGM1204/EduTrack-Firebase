@@ -19,7 +19,7 @@ export class AlumnosPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.alumnosSvc.getAll().subscribe();
+    this.alumnosSvc!.subscribeToAlumnosCollection();
   }
 
   crearAlumno(){

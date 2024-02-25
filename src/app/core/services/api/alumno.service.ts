@@ -5,6 +5,7 @@ import { ApiService } from './api.service';
 import { environment } from 'src/environments/environment';
 import { MesaService } from './mesa.service';
 import { FirebaseDocument, FirebaseService } from '../firebase/firebase.service';
+import { DocumentData, Unsubscribe } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +40,23 @@ export class AlumnoService {
       })
     );
   }
+
+  public subscribeToAlumnosCollection(): Unsubscribe | null {
+    // Llamar a la función subscribeToCollection pasando el nombre de la colección, el BehaviorSubject y la función de mapeo
+    return this.firebaseSvc.subscribeToCollection('alumnos', this._alumnos, (snapshot: any) => {
+        const data = snapshot.data(); // Obtener los datos del documento
+        console.log("Datos del documento:", data);
+
+        // Mapear los datos del documento a tu objeto Alumno
+        return {
+            id: snapshot.id,
+            nombre: data.nombre,
+            email: data.email,
+            fechaNacimiento: data.fechaNacimiento,
+            foto: data.foto
+        };
+    });
+}
 
   /*public query(q: string): Observable<Alumno[]>{
     return this.http.get('/alumnos?q='+q)

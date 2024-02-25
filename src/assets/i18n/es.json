@@ -24,7 +24,8 @@
         "email": "Email",
         "acciones": "Acciones",
         "selector": "Seleccione un alumno",
-        "ninguno": "Ninguno"
+        "ninguno": "Ninguno",
+        "foto": "Foto"
     },
     "about":{
         "texto": "Información de la Aplicación",
