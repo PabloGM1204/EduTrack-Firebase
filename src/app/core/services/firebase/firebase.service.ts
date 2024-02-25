@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { initializeApp, getApp, FirebaseApp } from "firebase/app";
-import { getFirestore, addDoc, collection, updateDoc, doc, onSnapshot, getDoc, setDoc, query, where, getDocs, Unsubscribe, DocumentData, deleteDoc, Firestore} from "firebase/firestore";
+import { getFirestore, addDoc, collection, updateDoc, doc, onSnapshot, getDoc, setDoc, query, where, getDocs, Unsubscribe, DocumentData, deleteDoc, Firestore, DocumentReference, DocumentSnapshot} from "firebase/firestore";
 import { getStorage, ref, getDownloadURL, uploadBytes, FirebaseStorage } from "firebase/storage";
 import { createUserWithEmailAndPassword, deleteUser, signInAnonymously, signOut, signInWithEmailAndPassword, initializeAuth, indexedDBLocalPersistence, UserCredential, Auth, User } from "firebase/auth";
 
@@ -211,6 +211,20 @@ export class FirebaseService {
     return onSnapshot(collection(this._db, collectionName), (snapshot) => {
       subject.next(snapshot.docs.map<any>(doc=>mapFunction(doc)));
       }, error=>{});
+  }
+
+  public subscribeToDocument(collectionName: string, field: string, value: any, subject: BehaviorSubject<any[]>, mapFunction:(el:DocumentData)=>any){
+    if(!this._db)
+      return null;
+    const documentRef: DocumentReference = doc(this._db, collectionName)
+    return onSnapshot(documentRef,(snapshot: DocumentSnapshot) => {
+      const data = snapshot.data();
+      if(data) {
+        subject.next(mapFunction(doc));
+      }
+    }, error => {
+      console.log("Error ", error)
+    })
   }
   
   public signOut(signInAnon:boolean=false):Promise<void> {

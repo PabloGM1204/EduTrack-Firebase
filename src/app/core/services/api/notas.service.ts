@@ -5,6 +5,7 @@ import { ApiService } from './api.service';
 import { FirebaseService } from '../firebase/firebase.service';
 import { dataURLtoBlob } from '../../helpers/blob';
 import { FirebaseMediaService } from './firebase/firebase-media.service';
+import { Unsubscribe } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -49,6 +50,24 @@ public getNotasPorAlumno(alumnoId: any): Observable<any[]> {
       console.log("Notas emitidas al BehaviorSubject.");
     })
   );
+}
+
+public subscribeToNotasCollection(): Unsubscribe | null {
+  // Llamar a la función subscribeToCollection pasando el nombre de la colección, el BehaviorSubject y la función de mapeo
+  return this.firebaseSvc.subscribeToCollection('notas', this._notas, (snapshot: any) => {
+      const data = snapshot.data(); // Obtener los datos del documento
+      console.log("Datos del documento:", data);
+
+      // Mapear los datos del documento a tu objeto Alumno
+      return {
+        id: snapshot.id,
+        calificacion: data.calificacion,
+        fecha: data.fecha,
+        descripcion: data.descripcion,
+        asignatura: data.asignatura,
+        alumnoID: data.alumnoFK,
+      };
+  });
 }
 
 

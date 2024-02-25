@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Alumno } from 'src/app/core/interfaces/alumno';
 import { Nota } from 'src/app/core/interfaces/nota';
 import { AlumnoService } from 'src/app/core/services/api/alumno.service';
@@ -41,6 +41,7 @@ export class InfoPage implements OnInit {
   }
 
   ngOnInit() {
+    this.notasSvc.subscribeToNotasCollection();
     this.mostrarContenido = false
     // Obtengo el id que le pasamos por parametros de la ruta
     this.id = this.route.snapshot.paramMap.get('id');
@@ -179,9 +180,18 @@ export class InfoPage implements OnInit {
 
   // Para cargar la nota
   cargarNotas(alumnoId: number) {
-    this.notasSvc.getNotasPorAlumno(alumnoId).subscribe(notas => {
+    /*this.notasSvc.getNotasPorAlumno(alumnoId).subscribe(notas => {
       this.notas = notas;
+    });*/
+    this.notasSvc.notas$.pipe(
+      map(notas => notas.filter(nota => nota.alumnoID === alumnoId))
+    ).subscribe(filteredNotas => {
+      this.notas = filteredNotas;
+      console.log("RESULTADO DE LAS NOTAS FILTRADAS", this.notas);
     });
+  
+    // Llamar al método para suscribirse a la colección de notas
+     // Supongamos que 123 es el ID del alumno
   }
 
   subirFoto(data: any){
