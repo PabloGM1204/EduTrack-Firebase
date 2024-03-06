@@ -18,13 +18,13 @@ Este proyecto es una aplicación web desarrollada con Angular e Ionic que permit
 
 - **Registro de Notas:** CRUD de las notas de cada alumno..
 
-- **Integración con Strapi:** Utiliza Strapi como backend para almacenar y gestionar la información de los alumnos y notas.
+- **Integración con Firebase:** Utiliza Firebase como backend para almacenar y gestionar la información de los alumnos y notas.
 
 - **Capacitor:** Aprovecha Capacitor para poder hacer los registros y login de manera eficiente y segura.
 
-- **Render y Netlify para Hosting:** Utiliza Render para la base de datos de la aplicación y Netlify para el despliegue continuo y hosting.
+- **Firebase y Netlify para Hosting:** Utiliza Firebase para la base de datos de la aplicación y Netlify para el despliegue continuo y hosting.
 
-- **Capacitor y Cordova:** Utiliza Capacitor para usar la camara y Cordova para la rotación de la pantalla en el movil.
+- **Plugins:** Utiliza Capacitor para usar la camara y Cordova para la rotación de la pantalla en el movil.
 
 ## Páginas (todas ellas traducidas):
   - **Login/Register:** Formulario para iniciar sesión o crear una cuenta.
