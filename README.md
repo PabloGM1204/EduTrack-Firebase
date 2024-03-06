@@ -4,7 +4,7 @@
 
 ## Página WEB
 
-https://main--cool-starburst-6a6684.netlify.app/home
+https://edutrack-firebase.netlify.app/home
 
 ## Descripción
 
@@ -24,6 +24,8 @@ Este proyecto es una aplicación web desarrollada con Angular e Ionic que permit
 
 - **Render y Netlify para Hosting:** Utiliza Render para la base de datos de la aplicación y Netlify para el despliegue continuo y hosting.
 
+- **Capacitor y Cordova:** Utiliza Capacitor para usar la camara y Cordova para la rotación de la pantalla en el movil.
+
 ## Páginas (todas ellas traducidas):
   - **Login/Register:** Formulario para iniciar sesión o crear una cuenta.
   - **Home:** Muestra las mesas disponibles.
@@ -33,4 +35,4 @@ Este proyecto es una aplicación web desarrollada con Angular e Ionic que permit
 
 ## Video de uso de la aplicación
 
-[![Video](/src/assets/imgs/logo-edutrack.jpg)](https://youtu.be/LCi3qDJm7yE)
+[![Video](/src/assets/imgs/logo-edutrack.jpg)](https://youtu.be/cKUt9ZgBXpk)
